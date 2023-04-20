@@ -3,8 +3,7 @@
  * https://reactnavigation.org/docs/getting-started
  *
  */
-import { FontAwesome } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import {
   NavigationContainer,
   DefaultTheme,
@@ -12,20 +11,15 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Pressable } from "react-native";
+import { ColorSchemeName } from "react-native";
 
-import Colors from "../constants/Colors";
-import useColorScheme from "../hooks/useColorScheme";
 import NotFoundScreen from "../screens/NotFoundScreen";
 
 import SignUpScreen from "../screens/SignUp";
 import LoginScreen from "../screens/Login";
-import {
-  RootStackParamList,
-  RootTabParamList,
-  RootTabScreenProps,
-} from "../types";
-import LinkingConfiguration from "./LinkingConfiguration";
+import TicTacToeScreen from "../screens/TicTacToe";
+
+import { RootStackParamList } from "../types";
 
 export default function Navigation({
   colorScheme,
@@ -34,7 +28,6 @@ export default function Navigation({
 }) {
   return (
     <NavigationContainer
-      linking={LinkingConfiguration}
       theme={colorScheme === "dark" ? DarkTheme : DefaultTheme}
     >
       <RootNavigator />
@@ -50,10 +43,15 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 
 function RootNavigator() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator initialRouteName="TicTacToeScreen">
       <Stack.Screen
-        name="Root"
-        component={BottomTabNavigator}
+        name="LoginScreen"
+        component={LoginScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="TicTacToeScreen"
+        component={TicTacToeScreen}
         options={{ headerShown: false }}
       />
       <Stack.Screen
@@ -68,45 +66,45 @@ function RootNavigator() {
 /**
  * A bottom tab navigator displays tab buttons on the bottom of the display to switch screens.
  * https://reactnavigation.org/docs/bottom-tab-navigator
- */
-const BottomTab = createBottomTabNavigator<RootTabParamList>();
+//  */
+// const BottomTab = createBottomTabNavigator<RootTabParamList>();
 
-function BottomTabNavigator() {
-  const colorScheme = useColorScheme();
+// function BottomTabNavigator() {
+//   const colorScheme = useColorScheme();
 
-  return (
-    <BottomTab.Navigator
-      initialRouteName="TabOne"
-      screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-      }}
-    >
-      <BottomTab.Screen
-        name="TabOne"
-        component={SignUpScreen}
-        options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
-          title: "Sign Up",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        })}
-      />
-      <BottomTab.Screen
-        name="TabTwo"
-        component={LoginScreen}
-        options={{
-          title: "Login",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
-        }}
-      />
-    </BottomTab.Navigator>
-  );
-}
+//   return (
+//     <BottomTab.Navigator
+//       initialRouteName="TicTacToeScreen"
+//       screenOptions={{
+//         tabBarActiveTintColor: Colors[colorScheme].tint,
+//       }}
+//     >
+//       <BottomTab.Screen
+//         name="SignUpScreen"
+//         component={SignUpScreen}
+//         options={({ navigation }: RootTabScreenProps<"SignUpScreen">) => ({
+//           title: "Sign Up",
+//           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+//         })}
+//       />
+//       <BottomTab.Screen
+//         name="LoginScreen"
+//         component={LoginScreen}
+//         options={{
+//           title: "Login",
+//           tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+//         }}
+//       />
+//     </BottomTab.Navigator>
+//   );
+// }
 
 /**
  * You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
  */
-function TabBarIcon(props: {
-  name: React.ComponentProps<typeof FontAwesome>["name"];
-  color: string;
-}) {
-  return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
-}
+// function TabBarIcon(props: {
+//   name: React.ComponentProps<typeof FontAwesome>["name"];
+//   color: string;
+// }) {
+//   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
+// }
